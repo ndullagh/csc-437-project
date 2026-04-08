@@ -1,0 +1,63 @@
+@import './tokens.css';
+
+@font-face {
+  font-family: 'VTCGoblinHand';
+  src: url('./fonts/VTCGoblinHand.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MonHun';
+  src: url('./fonts/Monster\ hunter.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MonHunDos';
+  src: url('./fonts/Monster\ hunter\ type\ 2.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+header 
+{
+    color: var(--color-text-inverted);
+    background-color: var(--color-background-header);
+    font-family: 'MonHunDos', sans-serif;
+    /* /*outline: 20px solid var(--color-background-header);* */
+    padding-bottom: 1%;
+    padding-top: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+}
+
+body
+{
+    font-family: 'IBMPlexSans', sans-serif;
+    
+
+    background-color: var(--color-background-page);
+
+    dt {
+    font-weight: bold;
+    }
+
+    dl,
+    dd {
+    font-size: 0.9rem;
+    }
+
+    /*dd {
+    margin-bottom: 1em;
+    }*/
+}
+

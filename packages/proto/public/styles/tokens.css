@@ -1,0 +1,10 @@
+:root {
+  --color-accent: rgb(42, 66, 42);
+  --color-accent-inverted: rgb(255 208 0);
+  --color-link: var(--color-accent);
+  --color-link-inverted: var(--color-accent-inverted);
+  --color-text: rgb(51 51 51);
+  --color-text-inverted: rgb(255 255 255);
+  --color-background-header: var(--color-accent);
+  --color-background-page: rgb(204, 235, 180);
+}
