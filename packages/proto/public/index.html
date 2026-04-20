@@ -1,74 +1,143 @@
-<head>
-    <link rel="stylesheet" href="styles/style.css" />
-</head>
-<body>
-    <header>
-        <h1>Monster Hunter Set Builder</h1>
-    </header>
+<!doctype html>
+<html lang="en">
+    <head>
 
-    <dl>
-        <dt>Weapons</dt>
-        <dd>
-            <dl>
-                <dt>Blademaster Weapons</dt>
-                <dd>
-                    <dl>
-                        <dt>Dual Blades</dt>
-                        <dd>
-                            <dl>
-                                <dt>Blazeblades</dt>
-                                <dd><a href="blazeblades.html">Stat Sheet</a></dd>
-                                <dt>Firestorm Fir/Wat</dt>
-                                <dd><a href="firestormfw.html">Stat Sheet</a></dd>
-                            </dl>
-                        </dd>
-                        <dt>Greatsword</dt>
-                        <dd>
-                            <dl>
-                                <dt>Chicken Decapitator</dt>
-                                <dd><a href="chickendecapitator.html">Stat Sheet</a></dd>
-                                <dt>Flamelord Wing</dt>
-                                <dd><a href="flamelordwing.html">Stat Sheet</a></dd>
-                            </dl>
-                        </dd>
-                    </dl>
-                </dd>
-                <dt>Gunner Weapons</dt>
-                <dd>
-                    <dl>
-                        <dt>Heavy Bowgun</dt>
-                        <dd>
-                            <dl>
-                                <dt>Akantor's Descent</dt>
-                                <dd><a href="akantordescent.html">Stat Sheet</a></dd>
-                                <dt>Daora's Ceti</dt>
-                                <dd><a href="daorasceti">Stat Sheet</a></dd>
-                            </dl>
-                        </dd>
-                    </dl>
-                </dd>
-            </dl>
-        </dd>
-        <dt>Armors</dt>
-        <dd>
-            <dl>
-                <dt>Blademaster Armors</dt>
-                <dd>
-                    <dl>
-                        <dt>Hunting Set (Blademaster)</dt>
-                        <dd><a href="huntingbm.html">Stat Sheet</a></dd>
-                    </dl>
-                </dd>
-                <dt>Gunner Armors</dt>
-                <dd>
-                    <dl>
-                        <dt>Hunting Set (Gunner)</dt>
-                        <dd><a href="huntinggn.html">Stat Sheet</a></dd>
-                    </dl>
-                </dd>
-            </dl>
-        </dd>
+        <title>Monster Hunter Set Builder</title>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="styles/reset.css" />
+        <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="styles/index.css" />
+    </head>
+    <body>
+        <div class="page">
+            <header>
+                <h1>Monster Hunter Set Builder</h1>
+                <div class="user">
+                    <svg class="icon">
+                        <use href="sprite.svg#icon-avatar" />
+                    </svg>
+                    Noelle Dullaghan
+                </div>
+                
+            </header>
 
-    </dl>
-    
-</body>
+                
+            <h2>Equipment</h2>
+            <main class="equipment">
+                
+                <section class="column" id="Weapons">
+                    <h3>Weapons</h3>
+
+
+                    <div class="weapon-type">
+                        <div class="weapon-header">
+                            <svg class="icon">
+                                <use href="sprite.svg#icon-db1" />
+                            </svg>
+                            <h4>Dual Blades</h4>
+                        </div>
+                        
+                        <ul>
+                            
+                            <li class="weapon">
+                                <div>Fire</div>
+                            
+                                <a href="blazeblades.html">Blazeblades</a>
+                            </li>
+
+                            <li class="weapon">
+                                <div>Fire/Water</div>
+                                
+                                <a href="firestormfw.html">Firestorm</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+
+                    <div class="weapon-type">
+
+                        <div class="weapon-header">
+                            <svg class="icon">
+                                <use href="sprite.svg#icon-gs1" />
+                            </svg>
+                            <h4>Greatsword</h4>
+                        </div>
+
+                        <ul>
+                            <li class="weapon">
+                                <div>Fire</div>
+                                <a href="chickendecapitator.html">Chicken Decapitator</a>
+                            </li>
+
+                            <li class="weapon">
+                                <div>Fire</div>
+                                
+                                <a href="flamelordwing.html">Flamelord Wing</a>
+                            </li>
+                        </ul>
+                        
+                        
+                    </div>
+                    
+
+                </section>
+
+
+                <section class="column" id="Armor">
+                    <h3>Armor</h3>
+
+                    <div class="armor-type">
+
+                        <div class="armor-header">
+                            <svg class="icon">
+                                <use href="sprite.svg#icon-set1" />
+                            </svg>
+                            <h4>Blademaster</h4>
+                        </div>
+
+                        <ul>
+                            <li class="armor">
+                                <div>Fire</div>
+                                <a href="huntingbm.html">Hunting Set (Blademaster)</a>
+                            </li>
+
+                            
+                        </ul>
+
+
+                        
+                        
+                        
+                    </div>
+
+                    <div class="armor-type">
+
+                        <div class="armor-header">
+                            <svg class="icon">
+                                <use href="sprite.svg#icon-set1" />
+                            </svg>
+                            <h4>Gunner</h4>
+                        </div>
+
+                        <ul>
+                            <li class="armor">
+                                <div>Fire</div>
+                                
+                                <a href="huntinggn.html">Hunting Set (Gunner)</a>
+                            </li>
+
+                            
+                        </ul>
+                    </div>
+
+                    
+                    
+                </section>
+            </div>
+        </main>
+        
+
+        
+    </body>
+
+</html>
