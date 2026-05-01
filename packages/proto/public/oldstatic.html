@@ -1,0 +1,156 @@
+<!doctype html>
+
+<script type="importmap">
+{
+  "imports": {
+    "@unbndl/html": "https://unpkg.com/@unbndl/html"
+  }
+}
+</script>
+<script type="module">
+  import { define } from "@unbndl/html";
+  import { ItemSlotElement } from "/js/item-slot.js";
+  import { ItemTypeElement } from "/js/item-type.js"
+
+  define({
+    "item-slot": ItemSlotElement,
+    "item-type": ItemTypeElement
+  });
+</script>
+
+
+<html lang="en">
+    <head>
+
+        <title>Monster Hunter Set Builder</title>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="style/reset.css" />
+        <link rel="stylesheet" href="style/style.css" />
+        <link rel="stylesheet" href="style/index.css" />
+    </head>
+    <body>
+        <div class="page">
+            <header>
+                <h1>Monster Hunter Set Builder</h1>
+                <div class="utility-stuff">
+                    <label onchange="relayEvent(
+                                    event,
+                                    'dark-mode',
+                                    {checked: event.target.checked})">
+                        <input type="checkbox" autocomplete="off" />
+                        Dark mode
+                    </label>
+                    <svg class="icon">
+                        <use href="sprite.svg#icon-avatar" />
+                    </svg>
+                    Noelle Dullaghan
+                </div>
+                
+            </header>
+
+                
+            <h2>Equipment</h2>
+            <main class="equipment">
+                
+                <section class="column" id="Weapons">
+                    <h3>Weapons</h3>
+                    
+
+                    <item-type icon="gs1">
+                        <span slot="typename">Greatsword</span>
+                        <item-slot href="flamelordwing.html">
+                            <div slot="Element">Fire</div>
+                            <div slot="WeaponName">Flamelord Wing</div>
+                            <!--<a href="huntingbm.html" slot="WeaponName">Hunting Set (Blademaster)</a>-->
+                        </item-slot>
+
+                        <item-slot href="chickendecapitator.html">
+                            <div slot="Element">Fire</div>
+                            <div slot="WeaponName">Chicken Decapitator</div>
+                            <!--<a href="huntingbm.html" slot="WeaponName">Hunting Set (Blademaster)</a>-->
+                        </item-slot>
+                    </item-type>
+
+                    <item-type icon="db1">
+                        <span slot="typename">Dual Blades</span>
+                        <item-slot href="blazeblades.html">
+                            <div slot="Element">Fire</div>
+                            <div slot="WeaponName">Blazeblades</div>
+                            <!--<a href="huntingbm.html" slot="WeaponName">Hunting Set (Blademaster)</a>-->
+                        </item-slot>
+                        <item-slot href="firestormfw.html">
+                            <div slot="Element">Fire/Water</div>
+                            <div slot="WeaponName">Firestorm</div>
+                            <!--<a href="huntingbm.html" slot="WeaponName">Hunting Set (Blademaster)</a>-->
+                        </item-slot>
+                    </item-type>
+                    
+
+                </section>
+
+
+                <section class="column" id="Armor">
+                    <h3>Armor</h3>
+
+                    <!--write function to generate am item-type based on its data in json-->
+                    <item-type icon="set1">
+                        <span slot="typename">Blademaster</span>
+                        <item-slot href="huntingbm.html">
+                            <div slot="Element">Fire</div>
+                            <div slot="WeaponName">Hunting Set (Blademaster)</div>
+                            <!--<a href="huntingbm.html" slot="WeaponName">Hunting Set (Blademaster)</a>-->
+                        </item-slot>
+                    </item-type>
+
+                    <item-type icon="set1">
+                        <span slot="typename">Gunner</span>
+                        <item-slot href="huntinggn.html">
+                            <div slot="Element">Fire</div>
+                            <div slot="WeaponName">Hunting Set (Gunner)</div>
+                            <!--<a href="huntingbm.html" slot="WeaponName">Hunting Set (Blademaster)</a>-->
+                        </item-slot>
+                    </item-type>
+
+                    
+                    
+                </section>
+            </div>
+        </main>
+
+
+        <script>
+            /*const page = document.body;
+            page.addEventListener("change", (event) => {
+                const checked = event.target.checked;
+                page.classList.toggle("dark-mode", checked);
+            });*/
+            function relayEvent(event, eventname, checked) {
+                //if(event === "dark-mode") {
+                    const customEvent = new CustomEvent(
+                        "dark-mode:toggle", {
+                        bubbles: true,
+                        detail: checked,
+                    });
+
+                    event.target.dispatchEvent(customEvent);
+                //}
+                
+            }
+
+            document.body.addEventListener(
+                "dark-mode:toggle",
+                (event) => {
+                    const page = event.currentTarget;
+                    const checked = event.detail.checked;
+                    page.classList.toggle("dark-mode", checked);
+
+                }
+            );
+        </script>
+
+        
+
+        
+    </body>
+
+</html>

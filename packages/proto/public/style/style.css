@@ -60,7 +60,7 @@
   white-space: nowrap;
 }
 
-.page > header .user {
+.page > header .utility-stuff {
   display: flex;
   justify-content: left;
   align-items: baseline;
@@ -70,7 +70,7 @@
   white-space: nowrap;
 }
 
-.page > header .user .icon {
+.page > header .utility-stuff .icon {
     width: 1.25rem;
     height: 1.25rem;
   }

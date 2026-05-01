@@ -1,18 +1,47 @@
 <!doctype html>
+
+<script type="importmap">
+{
+  "imports": {
+    "@unbndl/html": "https://unpkg.com/@unbndl/html"
+  }
+}
+</script>
+<script type="module">
+  import { define } from "@unbndl/html";
+  import { ItemSlotElement } from "/js/item-slot.js";
+  import { ItemTypeElement } from "/js/item-type.js"
+  import { EquipmentElement } from "/js/equipment.js"
+
+  define({
+    "item-slot": ItemSlotElement,
+    "item-type": ItemTypeElement,
+    "equip-elem": EquipmentElement
+  });
+</script>
+
+
 <html lang="en">
     <head>
 
         <title>Monster Hunter Set Builder</title>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="styles/reset.css" />
-        <link rel="stylesheet" href="styles/style.css" />
-        <link rel="stylesheet" href="styles/index.css" />
+        <link rel="stylesheet" href="style/reset.css" />
+        <link rel="stylesheet" href="style/style.css" />
+        <link rel="stylesheet" href="style/index.css" />
     </head>
     <body>
         <div class="page">
             <header>
                 <h1>Monster Hunter Set Builder</h1>
-                <div class="user">
+                <div class="utility-stuff">
+                    <label onchange="relayEvent(
+                                    event,
+                                    'dark-mode',
+                                    {checked: event.target.checked})">
+                        <input type="checkbox" autocomplete="off" />
+                        Dark mode
+                    </label>
                     <svg class="icon">
                         <use href="sprite.svg#icon-avatar" />
                     </svg>
@@ -23,118 +52,40 @@
 
                 
             <h2>Equipment</h2>
-            <main class="equipment">
+            <equip-elem src="/data/equipment.json">
+            </equip-elem>
+
+
+        <script>
+            /*const page = document.body;
+            page.addEventListener("change", (event) => {
+                const checked = event.target.checked;
+                page.classList.toggle("dark-mode", checked);
+            });*/
+            function relayEvent(event, eventname, checked) {
+                //if(event === "dark-mode") {
+                    const customEvent = new CustomEvent(
+                        "dark-mode:toggle", {
+                        bubbles: true,
+                        detail: checked,
+                    });
+
+                    event.target.dispatchEvent(customEvent);
+                //}
                 
-                <section class="column" id="Weapons">
-                    <h3>Weapons</h3>
+            }
 
+            document.body.addEventListener(
+                "dark-mode:toggle",
+                (event) => {
+                    const page = event.currentTarget;
+                    const checked = event.detail.checked;
+                    page.classList.toggle("dark-mode", checked);
 
-                    <div class="weapon-type">
-                        <div class="weapon-header">
-                            <svg class="icon">
-                                <use href="sprite.svg#icon-db1" />
-                            </svg>
-                            <h4>Dual Blades</h4>
-                        </div>
-                        
-                        <ul>
-                            
-                            <li class="weapon">
-                                <div>Fire</div>
-                            
-                                <a href="blazeblades.html">Blazeblades</a>
-                            </li>
+                }
+            );
+        </script>
 
-                            <li class="weapon">
-                                <div>Fire/Water</div>
-                                
-                                <a href="firestormfw.html">Firestorm</a>
-                            </li>
-                        </ul>
-                    </div>
-                    
-
-                    <div class="weapon-type">
-
-                        <div class="weapon-header">
-                            <svg class="icon">
-                                <use href="sprite.svg#icon-gs1" />
-                            </svg>
-                            <h4>Greatsword</h4>
-                        </div>
-
-                        <ul>
-                            <li class="weapon">
-                                <div>Fire</div>
-                                <a href="chickendecapitator.html">Chicken Decapitator</a>
-                            </li>
-
-                            <li class="weapon">
-                                <div>Fire</div>
-                                
-                                <a href="flamelordwing.html">Flamelord Wing</a>
-                            </li>
-                        </ul>
-                        
-                        
-                    </div>
-                    
-
-                </section>
-
-
-                <section class="column" id="Armor">
-                    <h3>Armor</h3>
-
-                    <div class="armor-type">
-
-                        <div class="armor-header">
-                            <svg class="icon">
-                                <use href="sprite.svg#icon-set1" />
-                            </svg>
-                            <h4>Blademaster</h4>
-                        </div>
-
-                        <ul>
-                            <li class="armor">
-                                <div>Fire</div>
-                                <a href="huntingbm.html">Hunting Set (Blademaster)</a>
-                            </li>
-
-                            
-                        </ul>
-
-
-                        
-                        
-                        
-                    </div>
-
-                    <div class="armor-type">
-
-                        <div class="armor-header">
-                            <svg class="icon">
-                                <use href="sprite.svg#icon-set1" />
-                            </svg>
-                            <h4>Gunner</h4>
-                        </div>
-
-                        <ul>
-                            <li class="armor">
-                                <div>Fire</div>
-                                
-                                <a href="huntinggn.html">Hunting Set (Gunner)</a>
-                            </li>
-
-                            
-                        </ul>
-                    </div>
-
-                    
-                    
-                </section>
-            </div>
-        </main>
         
 
         

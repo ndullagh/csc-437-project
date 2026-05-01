@@ -1,0 +1,71 @@
+{
+    "Weapons": 
+    [
+        {
+            "TypeName": "Greatsword",
+            "Icon": "gs1",
+            "ItemList":
+                [
+                    {
+                        "ItemName": "Chicken Decapitator",
+                        "Element": "Fire",
+                        "Statsheet": "chickendecapitator.html"
+                    },
+
+                    {
+                        "ItemName": "Flamelord Wing",
+                        "Element": "Fire",
+                        "Statsheet": "flamelordwing.html"
+                    }
+                ]
+        },
+
+        {
+            "TypeName": "Dualblades",
+            "Icon": "db1",
+            "ItemList":
+                [
+                    {
+                        "ItemName": "Blazeblades",
+                        "Element": "Fire",
+                        "Statsheet": "blazeblades.html"
+                    },
+
+                    {
+                        "ItemName": "Firestorm",
+                        "Element": "Fire/Water",
+                        "Statsheet": "firestormfw.html"
+                    }
+                ]
+        }
+    ],
+    "Armor" : 
+    [
+        {
+            "TypeName": "Blademaster",
+            "Icon": "set1",
+            "ItemList":
+                [
+                    {
+                        "ItemName": "Hunting Set (Blademaster)",
+                        "Element": "Fire",
+                        "Statsheet": "huntingbm.html"
+                    }
+                ]
+        },
+
+        { 
+            "TypeName": "Gunner",
+            "Icon": "set1",
+            "ItemList": 
+                [
+                    {
+                        "ItemName": "Hunting Set (Gunner)",
+                        "Element": "Fire",
+                        "Statsheet": "huntinggn.html"
+                    }
+                ]
+        }
+
+    ]
+}
