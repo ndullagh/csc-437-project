@@ -94,5 +94,14 @@ export class EquipmentElement extends HTMLElement {
         /*background-color: var(--color-background-column);*/
         padding: 20px;
         margin-bottom: 20px;
+    }
+    @media screen and
+    (max-width: 50rem) {
+
+        .column,
+        .weapon,
+        .armor {
+            grid-column: 1 / -1;
+        }
     }`
 }
