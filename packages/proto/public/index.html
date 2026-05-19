@@ -1,59 +1,69 @@
 <!doctype html>
 
-<script type="importmap">
-{
-  "imports": {
-    "@unbndl/html": "https://unpkg.com/@unbndl/html"
-  }
-}
-</script>
-<script type="module">
-  import { define } from "@unbndl/html";
-  import { ItemSlotElement } from "/js/item-slot.js";
-  import { ItemTypeElement } from "/js/item-type.js"
-  import { EquipmentElement } from "/js/equipment.js"
 
-  define({
-    "item-slot": ItemSlotElement,
-    "item-type": ItemTypeElement,
-    "equip-elem": EquipmentElement
-  });
-</script>
 
 
 <html lang="en">
     <head>
 
         <title>Monster Hunter Set Builder</title>
+
+        <script type="importmap">
+            {
+            "imports": {
+                "@unbndl/html": "https://unpkg.com/@unbndl/html",
+                "@unbndl/auth": "https://unpkg.com/@unbndl/auth",
+                "@unbndl/view": "https://unpkg.com/@unbndl/view"
+            }
+            }
+        </script>
+        <script type="module">
+            import { define } from "@unbndl/html";
+            import { Auth } from "@unbndl/auth";
+            import { ItemSlotElement } from "/js/item-slot.js";
+            import { ItemTypeElement } from "/js/item-type.js"
+            import { EquipmentElement } from "/js/equipment.js"
+            import { DarkToggleElement } from "/js/dark-toggle.js"
+            import { HeaderElement } from "/js/header.js";
+
+
+            define({
+                "auth-provider": Auth.Provider,
+                "item-slot": ItemSlotElement,
+                "item-type": ItemTypeElement,
+                "equip-elem": EquipmentElement,
+                "dark-toggle": DarkToggleElement,
+                "blz-header": HeaderElement    
+            });
+        </script>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="style/reset.css" />
         <link rel="stylesheet" href="style/style.css" />
         <link rel="stylesheet" href="style/index.css" />
     </head>
     <body>
+        <auth-provider>
         <div class="page">
-            <header>
+            <!--<header>
                 <h1>Monster Hunter Set Builder</h1>
                 <div class="utility-stuff">
-                    <label onchange="relayEvent(
-                                    event,
-                                    'dark-mode',
-                                    {checked: event.target.checked})">
-                        <input type="checkbox" autocomplete="off" />
-                        Dark mode
-                    </label>
+                    <dark-toggle><span slot="label">DARK MODE!!!</span></dark-toggle>
+
                     <svg class="icon">
                         <use href="sprite.svg#icon-avatar" />
                     </svg>
                     Noelle Dullaghan
                 </div>
                 
-            </header>
+            </header>-->
+            <blz-header></blz-header>
 
                 
             <h2>Equipment</h2>
-            <equip-elem src="/data/equipment.json">
+            <equip-elem src="/api/Equipment/6a02c9a118b7efa43b216b98">
             </equip-elem>
+
+        </div>
 
 
         <script>
@@ -78,6 +88,7 @@
             document.body.addEventListener(
                 "dark-mode:toggle",
                 (event) => {
+                    console.log("toggle event caught!")
                     const page = event.currentTarget;
                     const checked = event.detail.checked;
                     page.classList.toggle("dark-mode", checked);
@@ -85,6 +96,8 @@
                 }
             );
         </script>
+
+        </auth-provider>
 
         
 
