@@ -1,4 +1,5 @@
 export interface Equipment {
+    userid: string;
     Weapons: Array<Weapon>;
     Armor: Array<Armor>;
 }

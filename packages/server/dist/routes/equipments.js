@@ -3,11 +3,14 @@ import express from "express";
 import Equipments from "../services/equipment-svc.js";
 //import equipment from "../services/equipment-svc.js";
 const router = express.Router();
-router.get("/", (_, res) => {
-    Equipments.index()
-        .then((list) => res.send(list))
-        .catch((err) => res.status(500).send(err));
-});
+/*router.get("/", (_, res: Response) => {
+  Equipments.get("usr") //check this
+    .then((dest: Equipment | undefined) => {
+      if (!dest) res.status(404).send();
+      else res.send(dest)
+    })
+    .catch((err) => res.status(404).send(err));
+});*/
 router.get("/:id", (req, res) => {
     const { id } = req.params;
     Equipments.get(id) //check this

@@ -1,0 +1,29 @@
+:root {
+  --color-accent: #C2A83E;
+  --color-accent-inverted: rgb(241, 247, 237);
+  --color-link: var(--color-accent);
+  --color-link-inverted: var(--color-accent-inverted);
+  --color-text: #243E36;
+  --color-text-inverted: rgb(255 255 255);
+  --color-background-header: #7CA982;
+  --color-background-page: #E0EEC6;
+  --color-background-column: #F1F7ED;
+}
+
+body.dark-mode {
+  --color-background-page: rgb(60, 76, 56);
+  --color-text: rgb(241, 247, 237);
+  --color-background-card: black;
+  --color-text-control: rgb(255, 255, 255);
+  --color-text-control-inverted: var(--color-background-page);
+  --color-background-header: #13201a;
+}
+
+body.blue-mode {
+  --color-background-page: rgb(44, 65, 102);
+  --color-text: rgb(241, 247, 237);
+  --color-background-card: black;
+  --color-text-control: rgb(255, 255, 255);
+  --color-text-control-inverted: var(--color-background-page);
+  --color-background-header: #131420;
+}

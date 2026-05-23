@@ -11,6 +11,7 @@ const itemTypeSchema = new Schema({
     ItemList: [itemSchema],
 }, { _id: false });
 const equipmentSchema = new Schema({
+    userid: String,
     Weapons: [itemTypeSchema],
     Armor: [itemTypeSchema],
 }, { collection: "Equipment" });
@@ -20,8 +21,12 @@ function index() {
 }
 //TODO make all restful like this
 function get(id) {
-    return EquipmentModel.findById(id)
-        .then((equip) => equip?.toObject())
+    return EquipmentModel.find({ userid: id })
+        .then((list) => {
+        if (!list || list.length === 0)
+            throw `List Not Found`;
+        return list[0].toObject();
+    })
         .catch((err) => {
         throw `${id} Not Found`;
     });

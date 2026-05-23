@@ -26,6 +26,7 @@ const itemTypeSchema = new Schema<ItemType>(
 
 const equipmentSchema = new Schema<Equipment>(
   {
+    userid: String,
     Weapons: [itemTypeSchema],
     Armor: [itemTypeSchema],
   },
@@ -44,8 +45,11 @@ function index(): Promise<Equipment[]> {
 
 //TODO make all restful like this
 function get(id: string): Promise<Equipment | undefined> {
-  return EquipmentModel.findById( id )
-    .then((equip) => equip?.toObject() as Equipment)
+  return EquipmentModel.find( {userid: id} )
+    .then((list) => {
+        if(!list || list.length === 0) throw `List Not Found`;
+        return list[0].toObject() as Equipment 
+      })  
     .catch((err) => {
       throw `${id} Not Found`;
     });

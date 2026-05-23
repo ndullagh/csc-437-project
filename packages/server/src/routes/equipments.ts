@@ -9,11 +9,14 @@ const router = express.Router();
 
 
 
-router.get("/", (_, res: Response) => {
-  Equipments.index()
-    .then((list: Equipment[]) => res.send(list))
-    .catch((err) => res.status(500).send(err));
-});
+/*router.get("/", (_, res: Response) => {
+  Equipments.get("usr") //check this
+    .then((dest: Equipment | undefined) => {
+      if (!dest) res.status(404).send();
+      else res.send(dest)
+    })
+    .catch((err) => res.status(404).send(err));
+});*/
 
 router.get("/:id", (req: Request, res: Response) => {
   const { id } = req.params;

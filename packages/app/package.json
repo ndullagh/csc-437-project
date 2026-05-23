@@ -1,0 +1,26 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "npx tsc && npx vite build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@unbndl/auth": "^1.0.7",
+    "@unbndl/html": "^1.0.7",
+    "@unbndl/switch": "^1.0.7",
+    "@unbndl/view": "^1.0.7",
+    "route-parser": "^0.0.5"
+  },
+  "devDependencies": {
+    "@types/route-parser": "^0.1.7",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.14"
+  }
+}

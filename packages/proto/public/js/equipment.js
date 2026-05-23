@@ -64,32 +64,8 @@ export class EquipmentElement extends HTMLElement {
   
   static observedAttributes = ["src"];
 
-  /*reload() {
 
-
-    //const data = response.data ? response.data[0] : response;
-
-    this.hydrate(this.getAttribute("src")).then((data) => {
-      const view = EquipmentElement.render(data);
-      shadow(this).replace(view);
-    });
-  }*/
-
-  reload() {
-    this.hydrate(this.getAttribute("src")).then((response) => {
-      console.log("API response:", response);
-
-      //const data = response.data ? response.data[0] : response;
-      const data = response[0];/*Array.isArray(response)
-      ? response[0]
-      : response.data
-        ? response.data[0]
-        : response;*/
-
-      const view = EquipmentElement.render(data);
-      shadow(this).replace(view);
-    });
-  }
+ 
 
   attributeChangedCallback(name, _, newValue) {
     if (name === "src") {
