@@ -5,8 +5,8 @@ export interface Equipment {
 }
 
 export interface ItemType {
-    TypeName: String;
-    Icon: String;
+    TypeName: string;
+    Icon: string;
     ItemList: Array<Item>;
 }
 
@@ -19,7 +19,7 @@ export interface Armor extends ItemType {
 }
 
 export interface Item {
-    ItemName: String;
-    Element: String;
-    Statsheet: String;
+    ItemName: string;
+    Element: string;
+    Statsheet: string;
 }

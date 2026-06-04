@@ -10,19 +10,22 @@
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
 
 
-      <script type="module" crossorigin src="/assets/main-CkzcxL2b.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/reset.css-CQzz8SJB.js">
+      <script type="module" crossorigin src="/assets/main-CnM3Tzlr.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/reset.css-vi_VBtWp.js">
       <link rel="stylesheet" crossorigin href="/assets/reset-PsvH1CQh.css">
       <link rel="stylesheet" crossorigin href="/assets/main-gKOTgwYd.css">
     </head>
     <body>
-        <history-provider>
+        <history-provider base="/app">
             <auth-provider>
-                <article class="page">
-                    <blz-header></blz-header>
-                    <router-switch></router-switch>
-                    <a href="/app/about">Go to about</a>
-                </article>
+                <store-provider>
+                    <article class="page">
+                        <blz-header></blz-header>
+                        <router-switch></router-switch>
+                        <a href="/app/about">Go to about</a>
+                    </article>
+                </store-provider>
+                
 
             </auth-provider>
         </history-provider>
@@ -31,26 +34,7 @@
 
         
     </body>
-    <!--<body>
-    <history-provider>
-        <a href="/app/about">About</a>
-        <a href="/app/6a02c9a118b7efa43b216b98">Equipment</a>
-
-        <router-switch></router-switch>
-    </history-provider>
-
-    <script type="module" src="/src/main.ts"></script>
-    </body>-->
-    <!--<body>
-    <history-provider>
-        <a href="/app/about" history="push">About</a>
-        <a href="/app/6a02c9a118b7efa43b216b98" history="push">Equipment</a>
-
-        <router-switch></router-switch>
-    </history-provider>
-
-    <script type="module" src="/src/main.ts"></script>
-    </body>-->
+    
 
 </html>
 

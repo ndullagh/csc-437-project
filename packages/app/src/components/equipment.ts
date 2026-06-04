@@ -1,23 +1,39 @@
 import { html, css, shadow } from "@unbndl/html";
-import { createViewModel, fromAttributes } from "@unbndl/view";
+import { createView, createViewModel, fromAttributes } from "@unbndl/view";
 import { fromAuth } from "@unbndl/auth";
+import { Store, fromStore } from "@unbndl/store";
+import { Model } from "../model.ts";
+import { Equipment, ItemType, Item } from "server/models";
+
+
+
+interface EquipmentViewModel {
+  username?: string;
+  equipment: Equipment;
+}
+
+type EquipmentAttributes = {
+  username?: string;
+};
 
 export class EquipmentElement extends HTMLElement {
+  
 
-  viewModel = createViewModel({
-    authenticated: false,
-    equipment: {Weapons: [],
+  viewModel = createViewModel<EquipmentViewModel>({
+    equipment: {
+      userid: "",
+      Weapons: [],
       Armor: []
     } // this will be the data from the API
-  }).with(fromAttributes(this), "src")
-  .with(fromAuth(this), "authenticated", "token");
+  }).with(fromAttributes<EquipmentAttributes>(this), "username")
+  .with(fromStore<Model>(this), "equipment");
 
-  view = html`
+  view = createView<EquipmentViewModel>(html`
     <section class="column" id="Weapons">
         <h3>Weapons</h3>
         
 
-        ${$=>$.equipment.Weapons.map((type) => EquipmentElement.renderItemType(type))}
+        ${$=>$.equipment?.Weapons.map((type) => EquipmentElement.renderItemType(type))}
         
 
     </section>
@@ -26,75 +42,42 @@ export class EquipmentElement extends HTMLElement {
     <section class="column" id="Armor">
         <h3>Armor</h3>
 
-        ${$=>$.equipment.Armor.map((type) => EquipmentElement.renderItemType(type))}
+        ${$=>$.equipment?.Armor.map((type) => EquipmentElement.renderItemType(type))}
 
         
         
     </section>
-  `;
+  `);
 
   
 
-  get authorization() {
+  /*get authorization() {
     const $ = this.viewModel.toObject();
     if ($.authenticated)
         return { Authorization: `Bearer ${$.token}` };
       else return {};
-  }
+  }*/
   constructor() {
     super();
     shadow(this).styles(EquipmentElement.styles)
     .replace(this.viewModel.render(this.view));
     // no template
-    this.viewModel.createEffect(($) => {
-      if ($.authenticated && $.src) {
-        this.hydrate($.src).then((data) => {
-          this.viewModel.set("equipment", data); //TODO idk where these hook up to
-        });
-      }
-    })
   
 
-
     this.viewModel.createEffect(($) => {
-      console.log("EQUIPMENT:", $.equipment);
+      if ($.username) {
+        console.log("GET EVENT DISPATCHED! for user:", $.username);
+        Store.dispatch(this, ["equipment/get", { userid: $.username }]);
+      }
     });
   }
   
-  static observedAttributes = ["src"];
-
-
+  
  
 
-  attributeChangedCallback(name, _, newValue) {
-    if (name === "src") {
-      //this.reload();
+  
 
-
-      /*this.addEventListener("click", (event) => {
-        fetch(`/api/Equipment/Weapons/${encodeURIComponent("Dual Blades")}`, {
-          method: "POST",
-          headers: {
-
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            ItemName: "New Blades",
-            Element: "Water",
-            Statsheet: "newblades.html"
-          })
-        }).then(res => {
-          if(!res.ok) throw new Error("post failed!");
-          return res.json({added});
-        }).then(data => {
-          console.log("Created:", data);
-          this.reload();
-        })
-      });*/
-    }
-  }
-
-  static render(data) {
+  static render(data: Equipment) {
     // render the data
 
     console.log("render data:", data);
@@ -107,7 +90,7 @@ export class EquipmentElement extends HTMLElement {
         <h3>Weapons</h3>
         
 
-        ${Weapons.map((type) => EquipmentElement.renderItemType(type))}
+        ${Weapons.map((type: ItemType) => EquipmentElement.renderItemType(type))}
         
 
     </section>
@@ -116,7 +99,7 @@ export class EquipmentElement extends HTMLElement {
     <section class="column" id="Armor">
         <h3>Armor</h3>
 
-        ${Armor.map((type) => EquipmentElement.renderItemType(type))}
+        ${Armor.map((type: ItemType) => EquipmentElement.renderItemType(type))}
 
         
         
@@ -126,7 +109,7 @@ export class EquipmentElement extends HTMLElement {
 
   }
   
-  static renderItemType(type) {
+  static renderItemType(type: ItemType) {
     const {TypeName, Icon, ItemList} = type
 
     return html`
@@ -137,7 +120,7 @@ export class EquipmentElement extends HTMLElement {
     </item-type>`
   }
   
-  static renderItem(item) {
+  static renderItem(item: Item) {
     const {ItemName, Element, Statsheet} = item
 
     return html`
@@ -150,8 +133,8 @@ export class EquipmentElement extends HTMLElement {
   
 
 
-  hydrate(src) {
-    return fetch(src, { headers: this.authorization })
+  /*hydrate(username) {
+    return fetch(username, { headers: this.authorization })
       .then((response) => {
         if (response.status !== 200)
           throw `HTTP Status ${response.status}`;
@@ -160,7 +143,7 @@ export class EquipmentElement extends HTMLElement {
       .catch((error) => {
         console.log(`Could not fetch ${src}:`, error);
       });
-  }
+  }*/
 
   static styles = css`
 

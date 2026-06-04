@@ -1,39 +1,37 @@
 // src/views/equipment-view.ts
-import { fromAuth } from "@unbndl/auth";
 import { html, shadow, css } from "@unbndl/html";
-import { createViewModel, fromAttributes } from "@unbndl/view";
+import { createView, createViewModel } from "@unbndl/view";
+import { fromAuth } from "@unbndl/auth";
 
 interface EquipmentViewModel {
   username?: string;
+  //equipment?: Equipment;
 }
 
 export class EquipmentViewElement extends HTMLElement {
   viewModel = createViewModel<EquipmentViewModel>({})
-  .with(fromAuth(this), 'username');
+    .with(fromAuth(this), "username")
+    //.with(fromStore<Model>(this), "equipment");
 
-  view = html`
+  view = createView<EquipmentViewModel> ( html`
+          <equipment-elem
+            username=${$ => $.username || ""}>
+          </equipment-elem>
+`);
 
-    <equipment-elem
-      src=${($: EquipmentViewModel) =>
-        $.username
-          ? `/api/Equipment/${$.username}`
-          : `/api/Equipment/usr`
-      }>
-    </equipment-elem>
+
+  constructor() {
+    super();
+
     
-  `;
 
-constructor() {
-  super();
-  shadow(this)
-    .styles(css`
-      :host {
-        grid-column: 1 / -1;
-        display: contents;
-      }
-    `)
-    .replace(this.viewModel.render(this.view));
-}
-
-  //static observedAttributes = ["equipment-id"];
+    shadow(this)
+      .styles(css`
+        :host {
+          grid-column: 1 / -1;
+          display: contents;
+        }
+      `)
+      .replace(this.viewModel.render(this.view));
+  }
 }

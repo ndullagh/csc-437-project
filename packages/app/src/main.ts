@@ -1,10 +1,15 @@
 import { define, html } from "@unbndl/html";
 import { Auth } from "@unbndl/auth";
 import { BrowserHistory, Switch } from "@unbndl/switch";
+import { Store } from "@unbndl/store";
+import { Msg } from "./messages.js";
+import { Model, init } from "./model.js";
+import { update, Cmd } from "./update.js";
 import { HeaderElement } from "./components/header.js";
 import { EquipmentElement } from "./components/equipment.js";
-import { EquipmentViewElement } from "./components/equipment-view.ts";
+import { EquipmentViewElement } from "./components/equipment-view.js";
 import { AboutViewElement } from "./components/about-view.js";
+import { ProfileViewElement } from "./components/profile-view.js";
 import { ItemTypeElement } from "./components/item-type.js";
 import { ItemSlotElement } from "./components/item-slot.js";
 
@@ -16,6 +21,16 @@ const routes: any = [
       <a href="/app/6a02c9a118b7efa43b216b98">Go to equipment</a>
     `
   },
+  {
+    path: "/app/profile/:userid",
+    view: html`
+      <profile-view
+        user-id=${($: any) => $.params.userid}
+        mode=${($) => $.query.get("mode") || "view" }>
+      </profile-view>
+    `
+  },
+
   {
     
     path: "/app/statsheet/:id/:cat/:type/:name",
@@ -70,8 +85,16 @@ define({
   "equipment-elem": EquipmentElement,
   "equipment-view": EquipmentViewElement,
   "about-view": AboutViewElement,
+  "profile-view": ProfileViewElement,
   "item-type": ItemTypeElement,
   "item-slot": ItemSlotElement,
+  "store-provider": class AppStore
+    extends Store.Provider<Model, Msg, Cmd>
+  {
+    constructor() {
+      super(update, init);
+    }
+  },
   /*"router-switch": class AppSwitch extends Switch.Element {
   constructor() {
     super(routes);

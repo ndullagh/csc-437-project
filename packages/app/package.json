@@ -14,9 +14,12 @@
   "dependencies": {
     "@unbndl/auth": "^1.0.7",
     "@unbndl/html": "^1.0.7",
+    "@unbndl/service": "^1.0.11",
+    "@unbndl/store": "^1.0.11",
     "@unbndl/switch": "^1.0.7",
     "@unbndl/view": "^1.0.7",
-    "route-parser": "^0.0.5"
+    "route-parser": "^0.0.5",
+    "server": "^1.0.0"
   },
   "devDependencies": {
     "@types/route-parser": "^0.1.7",

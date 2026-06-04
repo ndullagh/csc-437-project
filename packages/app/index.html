@@ -16,13 +16,16 @@
 
     </head>
     <body>
-        <history-provider>
+        <history-provider base="/app">
             <auth-provider>
-                <article class="page">
-                    <blz-header></blz-header>
-                    <router-switch></router-switch>
-                    <a href="/app/about">Go to about</a>
-                </article>
+                <store-provider>
+                    <article class="page">
+                        <blz-header></blz-header>
+                        <router-switch></router-switch>
+                        <a href="/app/about">Go to about</a>
+                    </article>
+                </store-provider>
+                
 
             </auth-provider>
         </history-provider>
@@ -31,26 +34,7 @@
 
         
     </body>
-    <!--<body>
-    <history-provider>
-        <a href="/app/about">About</a>
-        <a href="/app/6a02c9a118b7efa43b216b98">Equipment</a>
-
-        <router-switch></router-switch>
-    </history-provider>
-
-    <script type="module" src="/src/main.ts"></script>
-    </body>-->
-    <!--<body>
-    <history-provider>
-        <a href="/app/about" history="push">About</a>
-        <a href="/app/6a02c9a118b7efa43b216b98" history="push">Equipment</a>
-
-        <router-switch></router-switch>
-    </history-provider>
-
-    <script type="module" src="/src/main.ts"></script>
-    </body>-->
+    
 
 </html>
 
