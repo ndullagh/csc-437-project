@@ -1,9 +1,59 @@
 import { html, css, shadow } from "@unbndl/html";
+import { createView, createViewModel, fromAttributes } from "@unbndl/view";
 import reset from "./styles/reset.css.js";
 
+type ItemTypeAttributes = {
+  type?: string;
+  icon?: string;
+  userid?: string;
+  cat?: string;
+}
+
+interface ItemTypeViewModel {
+  type: string;
+  icon: string;
+  userid: string;
+  cat: string;
+}
 
 export class ItemTypeElement extends HTMLElement {
-  static template = html`
+
+  viewModel = createViewModel<ItemTypeViewModel>({
+    type: "",
+    icon: "",
+    userid: "",
+    cat: "",
+  }).with(fromAttributes<ItemTypeAttributes>(this), "type", "icon", "userid", "cat");
+
+  view = createView<ItemTypeViewModel>(html`
+  <div class="item-type">
+    <div class="item-header">
+      <svg class="icon">
+        <use href=${($) => `/sprite.svg#icon-${$.icon}`} />
+      </svg>
+
+      <h4>${($) => $.type}</h4>
+
+      <a href=${($) => `/app/${$.userid}/${$.cat}/${$.type}/new`}>
+        +
+      </a>
+    </div>
+
+    <ul>
+      <slot></slot>
+    </ul>
+  </div>
+`);
+
+constructor() {
+    super();
+    shadow(this)
+      .styles(reset.styles, ItemTypeElement.styles)
+      .replace(this.viewModel.render(this.view));
+  }
+
+
+  /*static template = html`
     <template>
         <div class="item-type">
           <div class="item-header">
@@ -39,7 +89,7 @@ export class ItemTypeElement extends HTMLElement {
         this.shadowRoot.querySelector('use').setAttribute('href', `sprite.svg#icon-${newValue}`)
         break;
     }
-  }
+  }*/
 
   // I like to keep the styles at the bottom of the class
   static styles = css`

@@ -4,12 +4,13 @@ import { Auth } from "@unbndl/auth";
 import { Message } from "@unbndl/service";
 import { Model } from "./model.ts"; //TODO there was also something called TourIndex. not sure what that does.
 import { Msg } from "./messages.ts";
-import { Equipment, Profile } from "server/models";
+import { Equipment, Item, Profile } from "server/models";
 import { ThenUpdate } from "@unbndl/store";
 
 export type Cmd = // TODO /server/models wasn't imported. should it be?
   | ["equipment/load", { equipment: Equipment }]
   | ["profile/load", { profile: Profile}]
+  | ["equipment/item/load", {item: Item}]
   
 export function update(model: Readonly<Model>, message: Msg | Cmd, auth: Auth.Model): Model | ThenUpdate<Model, Cmd> { 
     //user originally said Auth.Model, but i figured it should be .User since that's what this func gets sent
@@ -33,6 +34,20 @@ export function update(model: Readonly<Model>, message: Msg | Cmd, auth: Auth.Mo
     case "equipment/load": {
       const { equipment } = payload;
       return { ...model, equipment };
+    }
+    case "equipment/item/get": {
+      return [model, getItem(payload, auth)];
+    }
+
+    case "equipment/item/load": {
+      return { ...model, stats: payload.item.Stats };
+    }
+
+    case "equipment/item/save": {
+      return [model, saveItem(payload, auth)];
+    }
+    case "equipment/item/create": {
+      return [model, createItem(payload, auth)];
     }
     case "profile/get": {
       if (model.profile?.userid === payload.userid) break;
@@ -133,3 +148,106 @@ function saveProfile(
     });
 }
 
+function getItem(
+  payload: {
+    userid: string;
+    cat: "Weapons" | "Armor";
+    type: string;
+    itemname: string;
+  },
+  auth: Auth.Model
+): Promise<Cmd> {
+  const userid = encodeURIComponent(payload.userid);
+  const cat = encodeURIComponent(payload.cat);
+  const type = encodeURIComponent(payload.type);
+  const itemname = encodeURIComponent(payload.itemname);
+
+  return fetch(`/api/Equipment/${userid}/${cat}/${type}/${itemname}`, {
+    headers: Auth.headers(auth)
+  })
+    .then((res: Response) => {
+      if (res.status === 200) return res.json();
+
+      throw new Error(
+        `${res.status} status; loading item ${payload.itemname}`
+      );
+    })
+    .then((json: unknown): Cmd => {
+      if (!json) throw new Error("No JSON in API response");
+
+      return ["equipment/item/load", { item: json as Item }];
+    });
+}
+
+function saveItem(
+  payload: {
+    userid: string;
+    cat: "Weapons" | "Armor";
+    type: string;
+    itemname: string;
+    stats: Record<string, string>;
+  },
+  auth: Auth.Model
+): Promise<Cmd> {
+  const userid = encodeURIComponent(payload.userid);
+  const cat = encodeURIComponent(payload.cat);
+  const type = encodeURIComponent(payload.type);
+  const itemname = encodeURIComponent(payload.itemname);
+
+  return fetch(`/api/Equipment/${userid}/${cat}/${type}/${itemname}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...Auth.headers(auth)
+    },
+    body: JSON.stringify(payload.stats)
+  })
+    .then((res: Response) => {
+      if (res.status === 200) return res.json();
+
+      throw new Error(
+        `${res.status} status; saving item ${payload.itemname}`
+      );
+    })
+    .then((json: unknown): Cmd => {
+      if (!json) throw new Error("No JSON in API response");
+
+      return ["equipment/item/load", { item: json as Item }];
+    });
+}
+
+
+function createItem(
+  payload: {
+    userid: string;
+    cat: "Weapons" | "Armor";
+    type: string;
+    item: Item;
+  },
+  auth: Auth.Model
+): Promise<Cmd> {
+  const userid = encodeURIComponent(payload.userid);
+  const cat = encodeURIComponent(payload.cat);
+  const type = encodeURIComponent(payload.type);
+
+  return fetch(`/api/Equipment/${userid}/${cat}/${type}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...Auth.headers(auth)
+    },
+    body: JSON.stringify(payload.item)
+  })
+    .then((res: Response) => {
+      if (res.status === 200) return res.json();
+
+      throw new Error(
+        `${res.status} status; creating item ${payload.item.ItemName}`
+      );
+    })
+    .then((json: unknown): Cmd => {
+      if (!json) throw new Error("No JSON in API response");
+
+      return ["equipment/item/load", { item: json as Item }];
+    });
+}

@@ -8,7 +8,7 @@ const itemSchema = new Schema<Item>(
     {
         ItemName: String,
         Element: String,
-        Statsheet: String,
+        Stats: Schema.Types.Mixed,
     },
     { _id: false }
 
@@ -74,15 +74,15 @@ function get(id: string): Promise<Equipment | undefined> {
   );
 }*/
 
-function create(
+function createItem(
   id: string,
   cat: "Weapons" | "Armor",
   type: string,
   item: Item
-): Promise<Equipment | null> {
+): Promise<Item | null> {
   return EquipmentModel.findOneAndUpdate(
     {
-      _id: id,
+      userid: id,
       [`${cat}.TypeName`]: type,
     },
     {
@@ -93,26 +93,39 @@ function create(
     { new: true }
   ).then((equip) => {
     if (!equip) throw `${id} Not Found`;
-    return equip.toObject() as Equipment;
+
+    const equipment = equip.toObject() as Equipment;
+
+    const typeGroup = equipment[cat].find(
+      (t) => t.TypeName === type
+    );
+
+    const createdItem = typeGroup?.ItemList.find(
+      (i) => i.ItemName === item.ItemName
+    );
+
+    if (!createdItem) throw `${item.ItemName} Not Found`;
+
+    return createdItem;
   });
 }
 
-function update(
+function updateItem(
   id: string,
   cat: "Weapons" | "Armor",
   type: string,
   itemName: string,
-  update: Item
-): Promise<Equipment | null> {
-  return EquipmentModel.findOneAndUpdate( //had to ask chatgpt how to do this :/ not sure if there's a better way
+  stats: Record<string, string>
+): Promise<Record<string, string>> {
+  return EquipmentModel.findOneAndUpdate(
     {
-      _id: id,
+      userid: id,
       [`${cat}.TypeName`]: type,
       [`${cat}.ItemList.ItemName`]: itemName,
     },
     {
       $set: {
-        [`${cat}.$[typeElem].ItemList.$[itemElem]`]: update
+        [`${cat}.$[typeElem].ItemList.$[itemElem].Stats`]: stats
       },
     },
     {
@@ -124,7 +137,43 @@ function update(
     }
   ).then((equip) => {
     if (!equip) throw `${id} Not Found`;
-    return equip.toObject() as Equipment;
+
+    const equipment = equip.toObject() as Equipment;
+    const typeGroup = equipment[cat].find((t) => t.TypeName === type);
+    const item = typeGroup?.ItemList.find((i) => i.ItemName === itemName);
+
+    if (!item) throw `${itemName} Not Found`;
+
+    return item.Stats;
+  });
+}
+
+
+function getItem(
+  id: string,
+  cat: "Weapons" | "Armor",
+  type: string,
+  itemName: string
+): Promise<Item> {
+  return EquipmentModel.findOne(
+    {
+      userid: id,
+      [`${cat}.TypeName`]: type,
+      [`${cat}.ItemList.ItemName`]: itemName
+    },
+    {
+      [`${cat}.$`]: 1
+    }
+  ).then((equip) => {
+    if (!equip) throw `${id} Not Found`;
+
+    const equipment = equip.toObject() as Equipment;
+    const typeGroup = equipment[cat].find((t) => t.TypeName === type);
+    const item = typeGroup?.ItemList.find((i) => i.ItemName === itemName);
+
+    if (!item) throw `${itemName} Not Found`;
+
+    return item;
   });
 }
 
@@ -150,4 +199,4 @@ function deleteItem(
   });
 }
 
-export default { index, get, create, update, deleteItem};
+export default { index, get, getItem, createItem, updateItem, deleteItem};

@@ -15,5 +15,5 @@ export interface Armor extends ItemType {
 export interface Item {
     ItemName: string;
     Element: string;
-    Statsheet: string;
+    Stats: Record<string, string>;
 }

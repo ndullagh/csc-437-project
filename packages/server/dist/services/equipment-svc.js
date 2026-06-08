@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const itemSchema = new Schema({
     ItemName: String,
     Element: String,
-    Statsheet: String,
+    Stats: Schema.Types.Mixed,
 }, { _id: false });
 const itemTypeSchema = new Schema({
     TypeName: String,
@@ -49,9 +49,9 @@ function get(id) {
     { new: true }
   );
 }*/
-function create(id, cat, type, item) {
+function createItem(id, cat, type, item) {
     return EquipmentModel.findOneAndUpdate({
-        _id: id,
+        userid: id,
         [`${cat}.TypeName`]: type,
     }, {
         $push: {
@@ -60,18 +60,22 @@ function create(id, cat, type, item) {
     }, { new: true }).then((equip) => {
         if (!equip)
             throw `${id} Not Found`;
-        return equip.toObject();
+        const equipment = equip.toObject();
+        const typeGroup = equipment[cat].find((t) => t.TypeName === type);
+        const createdItem = typeGroup?.ItemList.find((i) => i.ItemName === item.ItemName);
+        if (!createdItem)
+            throw `${item.ItemName} Not Found`;
+        return createdItem;
     });
 }
-function update(id, cat, type, itemName, update) {
-    return EquipmentModel.findOneAndUpdate(//had to ask chatgpt how to do this :/ not sure if there's a better way
-    {
-        _id: id,
+function updateItem(id, cat, type, itemName, stats) {
+    return EquipmentModel.findOneAndUpdate({
+        userid: id,
         [`${cat}.TypeName`]: type,
         [`${cat}.ItemList.ItemName`]: itemName,
     }, {
         $set: {
-            [`${cat}.$[typeElem].ItemList.$[itemElem]`]: update
+            [`${cat}.$[typeElem].ItemList.$[itemElem].Stats`]: stats
         },
     }, {
         new: true,
@@ -82,7 +86,30 @@ function update(id, cat, type, itemName, update) {
     }).then((equip) => {
         if (!equip)
             throw `${id} Not Found`;
-        return equip.toObject();
+        const equipment = equip.toObject();
+        const typeGroup = equipment[cat].find((t) => t.TypeName === type);
+        const item = typeGroup?.ItemList.find((i) => i.ItemName === itemName);
+        if (!item)
+            throw `${itemName} Not Found`;
+        return item.Stats;
+    });
+}
+function getItem(id, cat, type, itemName) {
+    return EquipmentModel.findOne({
+        userid: id,
+        [`${cat}.TypeName`]: type,
+        [`${cat}.ItemList.ItemName`]: itemName
+    }, {
+        [`${cat}.$`]: 1
+    }).then((equip) => {
+        if (!equip)
+            throw `${id} Not Found`;
+        const equipment = equip.toObject();
+        const typeGroup = equipment[cat].find((t) => t.TypeName === type);
+        const item = typeGroup?.ItemList.find((i) => i.ItemName === itemName);
+        if (!item)
+            throw `${itemName} Not Found`;
+        return item;
     });
 }
 function deleteItem(id, cat, type, itemName) {
@@ -99,4 +126,4 @@ function deleteItem(id, cat, type, itemName) {
         return equip.toObject();
     });
 }
-export default { index, get, create, update, deleteItem };
+export default { index, get, getItem, createItem, updateItem, deleteItem };

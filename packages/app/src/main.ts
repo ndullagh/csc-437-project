@@ -12,8 +12,11 @@ import { AboutViewElement } from "./components/about-view.js";
 import { ProfileViewElement } from "./components/profile-view.js";
 import { ItemTypeElement } from "./components/item-type.js";
 import { ItemSlotElement } from "./components/item-slot.js";
+import { ItemDetailElement } from "./components/item-detail-view.js";
+import { ItemCreateElement } from "./components/item-new-view.js";
 
 const routes: any = [
+
   {
     path: "/app/about",
     view: html`
@@ -21,6 +24,7 @@ const routes: any = [
       <a href="/app/6a02c9a118b7efa43b216b98">Go to equipment</a>
     `
   },
+
   {
     path: "/app/profile/:userid",
     view: html`
@@ -32,40 +36,45 @@ const routes: any = [
   },
 
   {
-    
-    path: "/app/statsheet/:id/:cat/:type/:name",
+    path: "/app/:userid/:cat/:type/new",
     view: html`
-      <stat-view 
-        equipment-id=${($: any) => $.params.id}
-        category=${($: any) => $.params.cat}
-        type=${($: any) => $.params.type}
-        name=${($: any) => $.params.name}>
-      </stat-view>
+      <item-new-view 
+        userid=${($: any) => $.params.userid}
+        cat=${($: any) => $.params.cat}
+        type=${($: any) => $.params.type}>
+      </item-new-view>
     `
   },
+
   {
-    path: "/app/newItem/:id/:cat/:type",
+    path: "/app/:userid/:cat/:type/:itemid",
     view: html`
-      <newitem-view 
-        equipment-id=${($: any) => $.params.id}
-        category=${($: any) => $.params.cat}
-        type=${($: any) => $.params.type}>
-      </newitem-view>
+      <item-detail
+        userid=${($: any) => decodeURIComponent($.params.userid)}
+        cat=${($: any) => decodeURIComponent($.params.cat)}
+        type=${($: any) => decodeURIComponent($.params.type)}
+        itemname=${($: any) => decodeURIComponent($.params.itemid)}
+        mode=${($: any) => $.query.get("mode") || "view"}>
+      </item-detail>
     `
   },
   
+  
   {
-    path: "/app/:id",
+    path: "/app/:userid",
     view: html`
-      <equipment-view equipment-id=${($: any) => $.params.id}></equipment-view>
+      <equipment-elem
+            username=${($: any) => $.params.userid || ""}>
+          </equipment-elem>
     `
   },
   {
     path: "/app",
     view: html`
-      <equipment-view></equipment-view>
+      <equipment-elem></equipment-elem>
     `
   },
+  //now must support: /app/type/item/?mode=edit|view (statView), /app/type/newitem (createItemView)
   {
     path: "/",
     redirect: "/app"
@@ -88,6 +97,8 @@ define({
   "profile-view": ProfileViewElement,
   "item-type": ItemTypeElement,
   "item-slot": ItemSlotElement,
+  "item-detail": ItemDetailElement,
+  "item-new-view": ItemCreateElement,
   "store-provider": class AppStore
     extends Store.Provider<Model, Msg, Cmd>
   {
